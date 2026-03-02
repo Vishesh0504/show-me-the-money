@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="$ryuk.container.privileged$" name="Default" enabled="$ryuk.container.privileged$" />
+      <profile name="Maven default annotation processors profile" enabled="$ryuk.container.privileged$">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="$ryuk.container.privileged$" />
+      </profile>
+      <profile name="Annotation profile for ShowMeTheMoney" enabled="$ryuk.container.privileged$">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="$ryuk.container.privileged$" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="show-me-the-money" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
