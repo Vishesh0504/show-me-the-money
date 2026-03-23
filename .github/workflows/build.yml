@@ -94,7 +94,7 @@ jobs:
             sed -i "s/^BACKEND_VERSION=.*/BACKEND_VERSION=${NEW_VERSION}/" .env
 
             # Pull the newly published image for this tag
-            docker compose pull app
+            docker compose pull backend
 
             # Restart the app container with the new image
-            docker compose up -d app
+            docker compose up -d backend
