@@ -36,5 +36,4 @@ jobs:
         with:
           context: .
           push: true
-          # Tags the image with the GitHub run number (e.g., ghcr.io/yourusername/show-me-the-money:42)
-          tags: ghcr.io/${{ github.repository_owner }}/show-me-the-money:${{ github.run_number }}
+          tags: ghcr.io/vishesh0504/show-me-the-money:${{ github.run_number }}
