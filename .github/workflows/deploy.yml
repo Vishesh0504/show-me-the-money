@@ -1,0 +1,45 @@
+name: Manual Deploy to Droplet
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: 'The Build Number to deploy (e.g., 42)'
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Copy config.yml to droplet
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          source: "config.yml"
+          target: "/opt/show-me-the-money"
+
+      - name: Deploy to droplet via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          BUILD_VERSION: ${{ inputs.build_number }}
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          envs: BUILD_VERSION
+          script: |
+            cd /opt/show-me-the-money
+
+            # Update the image tag in .env so docker compose picks up the new version
+            sed -i "s/^BACKEND_VERSION=.*/BACKEND_VERSION=${BUILD_VERSION}/" .env
+
+            # Pull the newly published image for this specific build number
+            docker compose pull backend
+
+            # Restart the app container with the new image
+            docker compose up -d backend
