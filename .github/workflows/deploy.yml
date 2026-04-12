@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.DROPLET_USER }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           source: "config.yml"
-          target: "/opt/show-me-the-money"
+          target: "/opt/show-me-the-money/backend"
 
       - name: Deploy to droplet via SSH
         uses: appleboy/ssh-action@v1.0.3
