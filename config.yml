@@ -1,5 +1,3 @@
----
-
 server:
   applicationConnectors:
     - type: http
@@ -13,6 +11,7 @@ logging:
   loggers:
     com.vishesh: DEBUG
 
+jwtsecret : ${JWT_SECRET}
 
 swagger:
   resourcePackage: com.vishesh.resources
@@ -21,3 +20,23 @@ swagger:
   schemes:
     - http
     - https
+
+database:
+  driverClass: org.mariadb.jdbc.Driver
+  url: jdbc:mariadb://localhost:3306/show_me_the_money
+  user: user
+  password: password
+  properties:
+    charSet: UTF-8
+    hibernate.dialect: org.hibernate.dialect.MariaDBDialect
+    hibernate.show_sql: true
+
+  # Health Check & Connection Pool Settings
+  validationQuery: "/* Dropwizard Health Check */ SELECT 1"
+  validationQueryTimeout: 3s
+  maxWaitForConnection: 1s
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false
+  evictionInterval: 10s
+  minIdleTime: 1m

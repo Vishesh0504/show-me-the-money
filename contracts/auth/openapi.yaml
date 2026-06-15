@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: ShowMeTheMoney Auth API
+  version: 1.0.0
+  description: Shared auth contract for backend and frontend.
+servers:
+  - url: /
+paths:
+  /auth/signup:
+    post:
+      operationId: signup
+      tags: [Auth]
+      summary: Create a new user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginCredentials'
+      responses:
+        '201':
+          description: User created and token issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponse'
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /auth/login:
+    post:
+      operationId: login
+      tags: [Auth]
+      summary: Authenticate user and issue token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginCredentials'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponse'
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    LoginCredentials:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+          example: user@example.com
+        password:
+          type: string
+          minLength: 1
+          example: secret123
+      additionalProperties: false
+    AuthTokenResponse:
+      type: object
+      required: [token]
+      properties:
+        token:
+          type: string
+          description: Bearer token used in Authorization header
+      additionalProperties: false
+    ErrorResponse:
+      type: object
+      description: Backend error payload. Fields can vary by exception mapper.
+      properties:
+        message:
+          type: string
+      additionalProperties: true
+
